@@ -20,6 +20,12 @@ class FancyArrow3D(FancyArrowPatch):
         self.set_positions((xs[0],ys[0]),(xs[1],ys[1]))
         FancyArrowPatch.draw(self, renderer)
 
+    def do_3d_projection(self, renderer=None):
+        xs3d, ys3d, zs3d = self._verts3d
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, self.axes.M)
+        self.set_positions((xs[0],ys[0]),(xs[1],ys[1]))
+
+        return min(zs)
 
 class Polygon3D():
     def __init__(self, *vertices, color=blue):
@@ -36,6 +42,13 @@ class Arrow3D():
         self.tip = tip
         self.tail = tail
         self.color = color
+
+    def do_3d_projection(self, renderer=None):
+        xs3d, ys3d, zs3d = self._verts3d
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, self.axes.M)
+        self.set_positions((xs[0],ys[0]),(xs[1],ys[1]))
+
+        return min(zs)
 
 class Segment3D():
     def __init__(self, start_point, end_point, color=blue, linestyle='solid'):
@@ -73,7 +86,7 @@ def draw3d(*objects, origin=True, axes=True, width=6, save_as=None, azim=None, e
     fig = plt.gcf()
     ax = fig.add_subplot(111, projection='3d')
     ax.view_init(elev=elev,azim=azim)
-    
+
     all_vectors = list(extract_vectors_3D(objects))
     if origin:
         all_vectors.append((0,0,0))
@@ -153,7 +166,7 @@ def draw3d(*objects, origin=True, axes=True, width=6, save_as=None, azim=None, e
         plt.xticks(xticks)
         plt.yticks(yticks)
         ax.set_zticks(zticks)
-        
+
     if save_as:
         plt.savefig(save_as)
 
