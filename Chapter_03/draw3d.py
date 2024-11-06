@@ -8,6 +8,8 @@ from mpl_toolkits.mplot3d import Axes3D, proj3d
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from colors import *
 
+
+
 ## https://stackoverflow.com/a/22867877/1704140
 class FancyArrow3D(FancyArrowPatch):
     def __init__(self, xs, ys, zs, *args, **kwargs):
