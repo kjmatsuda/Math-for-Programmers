@@ -133,3 +133,5 @@ dmypy.json
 GPATH
 GRTAGS
 GTAGS
+
+.vscode
